@@ -1,0 +1,10 @@
+.root__content {
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 768px) {
+  .root__content {
+    max-width: 300px;
+    overflow-x: hidden;
+  }
+}

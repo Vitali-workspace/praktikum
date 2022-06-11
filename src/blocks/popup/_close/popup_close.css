@@ -1,0 +1,28 @@
+/* @keyframes moveback {
+  0% {
+    opacity: 1;
+    display: flex;
+  }
+  50% {
+  	opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+} */
+
+@keyframes moveback {
+  0% {
+    visibility: visible;
+    opacity: 1;
+  }
+  100% {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.popup_close {
+  animation: moveback 0.3s linear forwards;
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesto</title>
+</head>
+
+<body class="root">
+  <div class="root__content">
+    <header class="header">
+      <div class="header__logo"></div>
+    </header>
+    <main class="page">
+      <section class="profile">
+        <div class="profile__photo"></div>
+        <h1 class="profile__name">Жак-Ив Кусто</h1>
+        <p class="profile__description">Исследователь океана</p>
+        <button class="profile__btn-edit" type="button"></button>
+        <button class="profile__btn-add" type="button"></button>
+      </section>
+      <section class="gallery" aria-label="галерея"></section>
+    </main>
+    <footer class="footer">
+      <p class="footer__copyright"> 2020 Mesto Russia</p>
+    </footer>
+
+    <div id="popupEdit" class="popup popup_close popup_overlay">
+      <div class="popup__container">
+        <h2 class="popup__edit-header">Редактировать профиль</h2>
+        <form class="form" id="formEdit" name="form-edit" novalidate>
+          <section class="form__section" aria-label="имя">
+            <input class="popup__edit-input" id="inputEditName" name="formName" form="formEdit" type="text"
+              placeholder="Имя" minlength="2" maxlength="40" required>
+            <span id="inputEditName-error" class="popup__input-error">Вы пропустили это поле.</span>
+          </section>
+          <section class="form__section" aria-label="описание деятельности">
+            <input class="popup__edit-input" id="inputEditText" name="formText" form="formEdit" type="text"
+              placeholder="О себе" minlength="2" maxlength="200" required>
+            <span id="inputEditText-error" class="popup__input-error">Вы пропустили это поле.</span>
+          </section>
+          <button class="popup__btn-save" type="submit">Сохранить</button>
+        </form>
+        <button class="popup__btn-close" type="button"></button>
+      </div>
+    </div>
+
+    <div id="popupAddCard" class="popup popup_close popup_overlay">
+      <div class="popup__container">
+        <h2 class="popup__edit-header">Новое место</h2>
+        <form class="form" id="formAdd" name="form-add" novalidate>
+          <section class="form__section" aria-label="название места">
+            <input class="popup__edit-input" id="inputAddName" name="formName" form="formAdd" type="text"
+              placeholder="Название" minlength="2" maxlength="30" required>
+            <span id="inputAddName-error" class="popup__input-error">Вы пропустили это поле.</span>
+          </section>
+          <section class="form__section" aria-label="ссылка на картинку">
+            <input class="popup__edit-input" id="inputAddLink" name="formText" form="formAdd" type="url"
+              placeholder="Ссылка на картинку" required>
+            <span id="inputAddLink-error" class="popup__input-error">Введите адрес сайта.</span>
+          </section>
+          <button class="popup__btn-save" type="submit">Создать</button>
+        </form>
+        <button class="popup__btn-close" type="button"></button>
+      </div>
+    </div>
+    <div id="popupCardImg" class="popup popup_close popup_overlay">
+      <figure class="popup__container-image">
+        <button class="popup__btn-close popup__btn-close_type_position" type="button"></button>
+        <img class="popup__image" src="#" alt="#">
+        <figcaption class="popup__image-name"></figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <template id="tempCard">
+    <article class="gallery__card">
+      <img class="gallery__card-img" src="#" alt="#">
+      <button class="gallery__btn-trash"></button>
+      <div class="gallery__card-header">
+        <h3 class="gallery__card-name"></h3>
+        <button class="gallery__btn-favorites" type="button"></button>
+      </div>
+    </article>
+  </template>
+</body>
+
+</html>
