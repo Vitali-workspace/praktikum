@@ -24,19 +24,34 @@ class Api {
     })
       .then(res => {
         if (res.ok) {
-          console.log('Выполнен');
+          console.log('Всё выполнилось успешно');
           return res.json();
         } else {
-          Promise.reject(res.status)
+          Promise.reject(`произошла ужасная ошибка: ${res.status}`)
         }
       })
-      .then(res => {
-        console.table(res)
+      .then((data) => {
+        console.log(data[1])
       })
       .catch(err => console.log(err));
   }
 
 
+  // получаем данные профиля с сервера для отображения у нас
+  getProfileInfo() {
+    return fetch(this._profileUrl, {
+      method: 'GET',
+      headers: this._header
+    })
+      .then(res => res.json())
+      //.then(res => { if (res.ok) { console.log('всё впорядке') } })
+      .then(res => {
+        console.table(res)
+        return res
+      }).then(res => Promise.resolve(`не ужели заработал: ${res.about}`))
+      //.then(Promise.resolve(res))
+      .catch(err => Promise.reject(`произошла ужасная ошибка: ${err}`));
+  }
 
 
 
