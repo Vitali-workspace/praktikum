@@ -1,15 +1,14 @@
 class Api {
-  constructor(config) {
-    this._url = config.url;
-    this._header = config.header;
-
-    this._profileUrl = 'https://nomoreparties.co/v1/cohort-40/users/me';
-    this._delCardUrl = 'https://mesto.nomoreparties.co/v1/cohort-40/cards/cardId';
-    this._likeCardUrl = 'https://mesto.nomoreparties.co/v1/cohort-40/cards/cohort-40/likes';
-    this._avatarUrl = 'https://mesto.nomoreparties.co/v1/cohort-40/users/me/avatar';
+  constructor(configApi) {
+    this._profileInfoUrl = configApi.profileInfoUrl;
+    this._profileAvatarUrl = configApi.profileAvatarUrl;
+    this._authorization = configApi.tokenAuthorization;
+    this._cardsUrl = configApi.cardsUrl;
+    this._likeCardUrl = configApi.likeCardUrl;
+    this._deleteCardUrl = configApi.deleteCardUrl;
   }
 
-  // Проверку нужно сделать отдельной функцией. Это примерный вариант.
+  //*! Проверку нужно сделать отдельной функцией. Это примерный вариант.
   checkError(res) {
     if (res.status) {
       return res.json();
@@ -18,41 +17,34 @@ class Api {
 
   // получаем данные карточек с сервера для отображения у нас
   getInitialCards() {
-    return fetch(this._url, {
+    return fetch(this._cardsUrl, {
       method: 'GET',
-      headers: this._header
-    })
-      .then(res => {
-        if (res.ok) {
-          console.log('Всё выполнилось успешно');
-          return res.json();
-        } else {
-          Promise.reject(`произошла ужасная ошибка: ${res.status}`)
-        }
-      })
-      .then((data) => {
-        console.log(data[1])
-      })
-      .catch(err => console.log(err));
-  }
-
-
-  // получаем данные профиля с сервера для отображения у нас
-  getProfileInfo() {
-    return fetch(this._profileUrl, {
-      method: 'GET',
-      headers: this._header
+      headers: {
+        authorization: this._authorization,
+        'Content-Type': 'application/json'
+      }
     })
       .then(res => res.json())
-      //.then(res => { if (res.ok) { console.log('всё впорядке') } })
-      .then(res => {
-        console.table(res)
-        return res
-      }).then(res => Promise.resolve(`не ужели заработал: ${res.about}`))
-      //.then(Promise.resolve(res))
-      .catch(err => Promise.reject(`произошла ужасная ошибка: ${err}`));
+      .then(res => console.log(res)) // тест ответа
+      .catch(err => Promise.reject(`произошла Ужасная ошибка с каточками: ${err}`));
   }
 
+
+  // получаем данные профиля с сервера для отображения у нас (В текущем виде работает)
+  getProfileInfo() {
+    return fetch(this._profileInfoUrl, {
+      method: 'GET',
+      headers: {
+        authorization: this._authorization,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
+        return res.json()
+      })
+      .catch(err => Promise.reject(`произошла Ужасная ошибка с профилем: ${err}`));
+  }
+  // .then(res => console.log(res)) // тест ответа
 
 
 }
