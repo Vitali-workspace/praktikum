@@ -15,7 +15,7 @@ class Api {
     }
   }
 
-  // получаем данные карточек с сервера для отображения у нас
+  // получаем данные карточек с сервера
   getInitialCards() {
     return fetch(this._cardsUrl, {
       method: 'GET',
@@ -25,12 +25,11 @@ class Api {
       }
     })
       .then(res => res.json())
-      .then(res => console.log(res)) // тест ответа
       .catch(err => Promise.reject(`произошла Ужасная ошибка с каточками: ${err}`));
   }
 
 
-  // получаем данные профиля с сервера для отображения у нас (В текущем виде работает)
+  // получаем данные профиля с сервера
   getProfileInfo() {
     return fetch(this._profileInfoUrl, {
       method: 'GET',
@@ -46,6 +45,20 @@ class Api {
   }
   // .then(res => console.log(res)) // тест ответа
 
+
+  // отправка новых данных профиля на сервер
+  changeProfileInfo(newProfileInfo) {
+    return fetch(this._profileInfoUrl, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._authorization,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name: `${newProfileInfo.name}`, about: `${newProfileInfo.job}` })
+    })
+      .then(res => res.json())
+      .catch(err => console.log(err));
+  }
 
 }
 
