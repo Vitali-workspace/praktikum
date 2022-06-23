@@ -6,7 +6,6 @@
   width: 22px;
   height: 19px;
   padding: 0 27px 0 0;
-  margin-top: 5px;
   transition: opacity .4s linear;
 }
 
@@ -14,5 +13,3 @@
   cursor: pointer;
   opacity: .6;
 }
-
-

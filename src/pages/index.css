@@ -24,6 +24,7 @@
 @import url(../blocks/gallery/__btn-favorites/gallery__btn-favorites.css);
 @import url(../blocks/gallery/__btn-trash/gallery__btn-trash.css);
 @import url(../blocks/gallery/__btn-favorites/_active/gallery__btn-favorites_active.css);
+@import url(../blocks/gallery/__counter-favorites/gallery__counter-favorites.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
