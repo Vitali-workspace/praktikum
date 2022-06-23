@@ -2,8 +2,23 @@
 import { popupImage, popupImageName } from "../pages/index.js";
 
 class Card {
-  constructor(newCard, handleCardClick, selectorTemplateCard) {
+  constructor(newCard,
+    handleCardClick,
+    handleLikeClick,
+    handleRemoveIconClick,
+    myId,
+    allCardsId,
+    selectorTemplateCard) {
+    //=======================
+
     this._handleCardClick = handleCardClick;
+    this._handleLikeClick = handleLikeClick; //!
+    this._handleRemoveIconClick = handleRemoveIconClick; //!
+    this._myId = myId;
+    this._allCardsId = allCardsId;
+    this._idOwner = null; //! нету
+    this._likes = null; //! нету
+
     this._nameCard = newCard.name;
     this._linkCard = newCard.link;
     this._popupImageName = popupImageName;
@@ -18,6 +33,13 @@ class Card {
     this._templateCardContent.querySelector('.gallery__card-name').textContent = `${this._nameCard}`;
     this._galleryCardImage.src = `${this._linkCard}`;
     this._galleryCardImage.alt = `${this._nameCard}`;
+
+    this._likeIcon = this._templateCardContent.querySelector('.gallery__btn-favorites');
+    this._deleteTrashIcon = this._templateCardContent.querySelector('.gallery__btn-trash');
+    // if (this._myId !== this._idOwner) {
+    //   this._deleteTrashIcon.remove();
+    // }
+
     this._setEventListeners();
     return this._templateCardContent;
   }

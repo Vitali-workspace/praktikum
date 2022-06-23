@@ -1,9 +1,5 @@
-//! Позже удали initialCards
-
-
 import './index.css';
 import {
-  initialCards,
   profileButtonEdit,
   profileButtonAdd,
   inputName,
@@ -35,16 +31,6 @@ import { Api } from '../components/Api.js';
 // отправляет запросы на сервер
 const requestApi = new Api(configApi);
 
-
-// const testprom = new Promise(function (resolve, reject) {
-//   const answer = requestApi.getProfileInfo();
-//   resolve(console.log('www'));
-//   reject('вот уж ошибка');
-// })
-// console.log(testprom);
-
-
-//================================================================
 const validFormEdit = new FormValidator(objElements, formEdit);
 const validFormAddCard = new FormValidator(objElements, formAddCard);
 validFormEdit.enableValidation();
@@ -55,41 +41,78 @@ function handleCardClick(nameCard, linkCard) {
   popupWithImage.open(nameCard, linkCard);
 }
 
+function handleLikeClick() {
+  //! api dislike
+}
+function handleRemoveIconClick() {
+  // удаление иконки с моих карточек
+}
+
+//==================================
+//! заглушки
+const myId = 'пустой';
+const allCardsId = 'пустой';
+
 // возвращает готовую карточку
+//! getReadyCard  renderer нужно передать id (id будут нужны для удаления карточек)
 function getReadyCard(parametersCard) {
-  const newBuildCard = new Card(parametersCard, handleCardClick, templateCard);
+  const newBuildCard = new Card(
+    parametersCard,
+    handleCardClick,
+    handleLikeClick,
+    handleRemoveIconClick,
+    myId,
+    allCardsId,
+    templateCard);
   return newBuildCard.createTemplateCard();
 }
 
 // рендер карточек
+const printCards = new Section(
+  {
+    renderer: (elementCard) => {
+      printCards.addItem(getReadyCard(elementCard));
+    }
+  }, gallery);
+
+// отрисовка существующих карточек с сервера
 requestApi.getInitialCards()
   .then(cards => {
-    const printCards = new Section(
-      {
-        items: cards,
-        renderer: (elementCard) => {
-          printCards.addItem(getReadyCard(elementCard));
-        }
-      }, gallery);
+    printCards.printElement(cards);
+  }).catch(err => Promise.reject(`Ошибка с карточками загружеными с сервера: ${err}`));
 
-    printCards.printElement()
-  }).catch(err => Promise.reject(`произошла Ужасная ошибка с профилем: ${err}`));
 
-//===============================================
-function handleDataCard() {
-  const newCard = {
-    name: newCardName.value,
-    link: newCardLink.value
-  }
-  const elementCard = getReadyCard(newCard);
-  printCards.addItem(elementCard);
-  validFormAddCard.disableSubmitButton();
+// Добавление карточки на сервер пользователем
+function handleDataCard(iputsInfo) {
+  requestApi.addCardServer(iputsInfo)
+    .then(res => {
+      return newCard = {
+        name: newCardName.value,
+        link: newCardLink.value
+      }
+    })
+    .then(res => {
+      const elementCard = getReadyCard(res);
+      printCards.addItemUser(elementCard);
+      validFormAddCard.disableSubmitButton();
+      return res;
+    })
+    .catch(err => Promise.reject(`Ошибка с карточкой на сервере: ${err}`))
 }
 
 const popupWithFormAdd = new PopupWithForm(popupAddCard, handleDataCard);
+
+
+function ProfileInfo(newProfileInfo) {
+  requestApi.changeProfileInfo(newProfileInfo);
+}
+
+// Отправка на сервер профиля.
 const popupWithFormProfile = new PopupWithForm(popupEdit, () => {
-  userProfile.setUserInfo(inputName, inputDescription);
+  const userProfileResult = userProfile.setUserInfo(inputName, inputDescription);
+  ProfileInfo(userProfileResult);
 });
+
 
 const popupWithImage = new PopupWithImage(popupCardImg);
 const userProfile = new UserInfo({ name: '.profile__name', description: '.profile__description' });
@@ -113,11 +136,10 @@ requestApi.getProfileInfo()
   })
   .then(objsData => {
     const profileDatas = userProfile.getUserInfo(objsData);
-    console.log(profileDatas);
   })
-  .catch(err => console.log('Ужасная ошибка'))
+  .catch(err => Promise.reject(`Ошибка с профилем: ${err}`));
 
-//=================
+
 profileButtonEdit.addEventListener('click', function () {
   popupWithFormProfile.open();
   // получаем объект с данными полей из инпута
@@ -140,7 +162,7 @@ profileButtonEdit.addEventListener('click', function () {
       inputDescription.value = profileData.description;
       validFormEdit.resetInputErorr();
     })
-    .catch(err => console.log('Ужасная ошибка в профиле'))
+    .catch(err => Promise.reject(`Ошибка при получении профиля: ${err}`));
 });
 
 popupWithFormProfile.setEventListeners();

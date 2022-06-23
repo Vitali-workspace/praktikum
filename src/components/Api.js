@@ -15,7 +15,7 @@ class Api {
     }
   }
 
-  // получаем данные карточек с сервера
+  // загрузка карточек с сервера
   getInitialCards() {
     return fetch(this._cardsUrl, {
       method: 'GET',
@@ -29,7 +29,7 @@ class Api {
   }
 
 
-  // получаем данные профиля с сервера
+  // загрузка данных профиля с сервера
   getProfileInfo() {
     return fetch(this._profileInfoUrl, {
       method: 'GET',
@@ -59,6 +59,23 @@ class Api {
       .then(res => res.json())
       .catch(err => console.log(err));
   }
+
+  // добавление новой карточки на сервер
+  addCardServer(iputsInfo) {
+    console.log({ name: `${iputsInfo.formName}`, link: `${iputsInfo.formText}` });
+    return fetch(this._cardsUrl, {
+      method: 'POST',
+      headers: {
+        authorization: this._authorization,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name: `${iputsInfo.formName}`, link: `${iputsInfo.formText}` })
+    })
+      .then(res => res.json())
+      .catch(err => console.log(err));
+  }
+  //console.log(iputsInfo.formText);
+
 
 }
 
