@@ -20,6 +20,9 @@ const popupCardImg = container.querySelector('#popupCardImg');
 const popupImage = container.querySelector('.popup__image');
 const popupImageName = container.querySelector('.popup__image-name');
 
+const popupAvatar = document.querySelector('#popupAvatar');
+const popupDeleteCard = document.querySelector('#popupDeleteCard');
+
 const objElements = {
   formSelector: '.form',
   inputSelector: '.popup__edit-input',
@@ -54,6 +57,8 @@ export {
   popupCardImg,
   popupImage,
   popupImageName,
+  popupAvatar,
+  popupDeleteCard,
   objElements,
   configApi
 };
