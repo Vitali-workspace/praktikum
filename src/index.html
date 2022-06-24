@@ -66,12 +66,37 @@
         <button class="popup__btn-close" type="button"></button>
       </div>
     </div>
+
     <div id="popupCardImg" class="popup popup_close popup_overlay">
       <figure class="popup__container-image">
         <button class="popup__btn-close popup__btn-close_type_position" type="button"></button>
         <img class="popup__image" src="#" alt="#">
         <figcaption class="popup__image-name"></figcaption>
       </figure>
+    </div>
+  </div>
+
+
+  <div id="popupDeleteCard" class="popup popup_close popup_overlay">
+    <div class="popup__container">
+      <h2 class="popup__edit-header">Вы уверены?</h2>
+      <button class="popup__btn-save popup__btn-save_type_position-confirm" type="submit">Да</button>
+      <button class="popup__btn-close popup__btn-close_type_position-confirm" type="button"></button>
+    </div>
+  </div>
+
+  <div id="popupAvatar" class="popup popup_close popup_overlay">
+    <div class="popup__container">
+      <h2 class="popup__edit-header">Обновить аватар</h2>
+      <form class="form" id="formAddAvatar" name="form-addAvatar" novalidate>
+        <section class="form__section" aria-label="ссылка на картинку">
+          <input class="popup__edit-input" id="inputAddLinkAvatar" name="formText" form="formAddAvatar" type="url"
+            placeholder="Ссылка на картинку" required>
+          <span id="inputAddLinkAvatar-error" class="popup__input-error">Введите адрес.</span>
+        </section>
+        <button class="popup__btn-save popup__btn-save_type_position-avatar" type="submit">Сохранить</button>
+      </form>
+      <button class="popup__btn-close popup__btn-close_type_position-avatar" type="button"></button>
     </div>
   </div>
 

@@ -41,8 +41,12 @@
 
 @import url(../blocks/popup/__edit-input/popup__edit-input.css);
 @import url(../blocks/popup/__btn-save/popup__btn-save.css);
+@import url(../blocks/popup/__btn-save/_type/popup__btn-save_type_position-avatar.css);
+@import url(../blocks/popup/__btn-save/_type/popup__btn-save_type_position-confirm.css);
 @import url(../blocks/popup/__btn-close/popup__btn-close.css);
 @import url(../blocks/popup/__btn-close/_type/popup__btn-close_type_position.css);
+@import url(../blocks/popup/__btn-close/_type/popup__btn-close_type_position-avatar.css);
+@import url(../blocks/popup/__btn-close/_type/popup__btn-close_type_position-confirm.css);
 @import url(../blocks/popup/_btn-disable/popup_btn-disable.css);
 @import url(../blocks/popup/__input-error/popup__input-error.css);
 @import url(../blocks/popup/__input-error/_active/popup__input-error_active.css);
