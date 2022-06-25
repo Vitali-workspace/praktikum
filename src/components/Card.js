@@ -1,26 +1,24 @@
-
 import { popupImage, popupImageName } from "../pages/index.js";
 
 class Card {
-  constructor(newCard,
+  constructor(dataNewCard,
     handleCardClick,
     handleLikeClick,
     handleRemoveIconClick,
-    myId,
-    allCardsId,
     selectorTemplateCard) {
     //=======================
 
     this._handleCardClick = handleCardClick;
-    this._handleLikeClick = handleLikeClick; //!
-    this._handleRemoveIconClick = handleRemoveIconClick; //!
-    this._myId = myId;
-    this._allCardsId = allCardsId;
-    this._idOwner = null; //! нету
-    this._likes = null; //! нету
+    this._handleLikeClick = handleLikeClick; //! не сделаны
+    this._handleRemoveIconClick = handleRemoveIconClick;
+    this._idCard = dataNewCard._id;
+    this._idOwner = dataNewCard.owner._id; // id других пользователей
+    this._idMyUser = '4987bc3550b8e71731203311';
+    this._listUserLikes = dataNewCard.likes;
 
-    this._nameCard = newCard.name;
-    this._linkCard = newCard.link;
+
+    this._nameCard = dataNewCard.name;
+    this._linkCard = dataNewCard.link;
     this._popupImageName = popupImageName;
     this._selectorTemplateCard = selectorTemplateCard;
     this._templateCardContent = this._selectorTemplateCard
@@ -34,12 +32,8 @@ class Card {
     this._galleryCardImage.src = `${this._linkCard}`;
     this._galleryCardImage.alt = `${this._nameCard}`;
 
-    this._likeIcon = this._templateCardContent.querySelector('.gallery__btn-favorites');
-    this._deleteTrashIcon = this._templateCardContent.querySelector('.gallery__btn-trash');
-    // if (this._myId !== this._idOwner) {
-    //   this._deleteTrashIcon.remove();
-    // }
-
+    this._hiddenBtnTrash();
+    this._counterLikes();
     this._setEventListeners();
     return this._templateCardContent;
   }
@@ -48,9 +42,22 @@ class Card {
     this.classList.toggle('gallery__btn-favorites_active');
   }
 
-  _btnTrash() {
+  _hiddenBtnTrash() {
+    const notMyIdCard = this._idMyUser !== this._idOwner;
+    if (notMyIdCard) {
+      this.deleteTrashIcon = this._templateCardContent.querySelector('.gallery__btn-trash').style.visibility = 'hidden';
+    }
+  }
+
+  //! Возможно больше не нужно
+  btnTrash() {
     this._templateCardContent.remove();
     this._templateCardContent = null;
+  }
+
+  _counterLikes() {
+    let counter = this._templateCardContent.querySelector('.gallery__counter-favorites');
+    counter.textContent = this._listUserLikes.length;
   }
 
   _openImagePopup() {
@@ -62,7 +69,9 @@ class Card {
 
   _setEventListeners() {
     this._templateCardContent.querySelector('.gallery__btn-favorites').addEventListener('click', this._btnFavorites);
-    this._templateCardContent.querySelector('.gallery__btn-trash').addEventListener('click', () => this._btnTrash());
+    this._templateCardContent.querySelector('.gallery__btn-trash').addEventListener('click', () => {
+      this._handleRemoveIconClick(this._idCard, this);
+    });
     this._templateCardContent.querySelector('.gallery__card-img').addEventListener('click', () => this._openImagePopup());
   }
 }

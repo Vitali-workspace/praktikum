@@ -15,6 +15,8 @@ import {
   popupCardImg,
   popupImage,
   popupImageName,
+  popupAvatar,
+  popupDeleteCard,
   objElements,
   configApi
 } from '../utils/constans.js';
@@ -26,7 +28,7 @@ import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
-
+import { PopupWithConfirm } from '../components/PopupWithConfirm.js';
 
 // отправляет запросы на сервер
 const requestApi = new Api(configApi);
@@ -36,6 +38,10 @@ const validFormAddCard = new FormValidator(objElements, formAddCard);
 validFormEdit.enableValidation();
 validFormAddCard.enableValidation();
 
+// попап подтверждения удаления
+const popupWithConfirm = new PopupWithConfirm(popupDeleteCard);
+popupWithConfirm.setEventListeners();
+
 // отвечает за открытие картинки в попапе
 function handleCardClick(nameCard, linkCard) {
   popupWithImage.open(nameCard, linkCard);
@@ -44,25 +50,32 @@ function handleCardClick(nameCard, linkCard) {
 function handleLikeClick() {
   //! api dislike
 }
-function handleRemoveIconClick() {
-  // удаление иконки с моих карточек
-}
 
+//===================================
+// колбэк клика на корзину.
+function handleRemoveIconClick(id, card) {
+  popupWithConfirm.submitDeleteCard(() => { ConfirmDeleteCard(id, card) });
+  popupWithConfirm.open();
+}
+// функция для удаления карточек на сервере
+function ConfirmDeleteCard(id, card) {
+  requestApi.deleteCardServer(id)
+    .then(res => {
+      //card.remove();
+      //! не работает удаление из dom
+      popupWithConfirm.close();
+    })
+    .catch(err => Promise.reject(`Ошибка при удалении карточки: ${err}`))
+}
 //==================================
-//! заглушки
-const myId = 'пустой';
-const allCardsId = 'пустой';
 
 // возвращает готовую карточку
-//! getReadyCard  renderer нужно передать id (id будут нужны для удаления карточек)
-function getReadyCard(parametersCard) {
+function getReadyCard(dataCards) {
   const newBuildCard = new Card(
-    parametersCard,
+    dataCards,
     handleCardClick,
     handleLikeClick,
     handleRemoveIconClick,
-    myId,
-    allCardsId,
     templateCard);
   return newBuildCard.createTemplateCard();
 }
@@ -75,7 +88,8 @@ const printCards = new Section(
     }
   }, gallery);
 
-// отрисовка существующих карточек с сервера
+// отрисовка существующих карточек на сервере
+//! id
 requestApi.getInitialCards()
   .then(cards => {
     printCards.printElement(cards);
@@ -113,16 +127,13 @@ const popupWithFormProfile = new PopupWithForm(popupEdit, () => {
   ProfileInfo(userProfileResult);
 });
 
-
 const popupWithImage = new PopupWithImage(popupCardImg);
 const userProfile = new UserInfo({ name: '.profile__name', description: '.profile__description' });
-
 
 profileButtonAdd.addEventListener('click', function () {
   popupWithFormAdd.open();
   validFormAddCard.resetInputErorr();
 });
-
 
 // получение данных с сервера для заполнения профеля
 requestApi.getProfileInfo()

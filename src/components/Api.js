@@ -8,7 +8,7 @@ class Api {
     this._deleteCardUrl = configApi.deleteCardUrl;
   }
 
-  //*! Проверку нужно сделать отдельной функцией. Это примерный вариант.
+  //*! Проверку нужно сделать отдельной функцией.
   checkError(res) {
     if (res.status) {
       return res.json();
@@ -43,7 +43,6 @@ class Api {
       })
       .catch(err => Promise.reject(`произошла Ужасная ошибка с профилем: ${err}`));
   }
-  // .then(res => console.log(res)) // тест ответа
 
 
   // отправка новых данных профиля на сервер
@@ -74,7 +73,20 @@ class Api {
       .then(res => res.json())
       .catch(err => console.log(err));
   }
-  //console.log(iputsInfo.formText);
+
+  // Удаление карточки на сервере.
+  deleteCardServer(idCard) {
+    return fetch(this._deleteCardUrl + `${idCard}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._authorization,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .catch(err => console.log(err));
+  }
+  // .then(res => console.log(res)) // тест ответа
 
 
 }
