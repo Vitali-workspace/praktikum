@@ -36,7 +36,7 @@ const configApi = {
   tokenAuthorization: '6e087a0f-c27a-43c1-a0e6-91ac2272b53b',
   profileInfoUrl: 'https://nomoreparties.co/v1/cohort-40/users/me',
   profileAvatarUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/users/me/avatar',
-  deleteCardUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards/cardId',
+  deleteCardUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards/',
   likeCardUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards/cohort-40/likes',
   cardsUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards'
 }
