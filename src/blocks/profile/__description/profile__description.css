@@ -8,6 +8,7 @@
   white-space: nowrap;
   padding-left: 30px;
   max-width: 250px;
+  padding-bottom: 68px;
 }
 
 @media screen and (max-width: 768px) {
@@ -15,6 +16,6 @@
     font-size: 14px;
     line-height: 17px;
     padding-left: 0;
-
+    padding-bottom: 0;
   }
 }

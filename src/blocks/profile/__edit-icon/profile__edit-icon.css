@@ -1,0 +1,21 @@
+.profile__edit-icon {
+  background-repeat: no-repeat;
+  position: absolute;
+  margin-top: 38px;
+  top: 0;
+  left: 0;
+  width: 130px;
+  height: 130px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  background-size: 26px 26px;
+  background-position: center;
+  padding: 0;
+}
+
+.profile__edit-icon:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  background-image: url(../../../images/Vector-Edit-Avatar.svg);
+
+}
