@@ -8,9 +8,9 @@ class Api {
     this._deleteCardUrl = configApi.deleteCardUrl;
   }
 
-  //*! Проверку нужно сделать отдельной функцией.
+  // проверка на ошибки при отправке запроса на сервер
   checkError(res) {
-    if (res.status) {
+    if (res.ok) {
       return res.json();
     }
   }
@@ -61,17 +61,18 @@ class Api {
 
   // добавление новой карточки на сервер
   addCardServer(iputsInfo) {
+    //! Тестирование
     console.log({ name: `${iputsInfo.formName}`, link: `${iputsInfo.formText}` });
-    return fetch(this._cardsUrl, {
-      method: 'POST',
-      headers: {
-        authorization: this._authorization,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name: `${iputsInfo.formName}`, link: `${iputsInfo.formText}` })
-    })
-      .then(res => res.json())
-      .catch(err => console.log(err));
+    // return fetch(this._cardsUrl, {
+    //   method: 'POST',
+    //   headers: {
+    //     authorization: this._authorization,
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({ name: `${iputsInfo.formName}`, link: `${iputsInfo.formText}` })
+    // })
+    //   .then(res => res.json())
+    //   .catch(err => console.log(err));
   }
 
   // Удаление карточки на сервере.
@@ -86,8 +87,53 @@ class Api {
       .then(res => res.json())
       .catch(err => console.log(err));
   }
-  // .then(res => console.log(res)) // тест ответа
 
+  // Загрузка нового аватара на сервер
+  addAvatarServer(link) {
+    //! Тестирование
+    console.log(link);
+    // return fetch(this._profileAvatarUrl, {
+    //   method: 'PATCH',
+    //   headers: {
+    //     authorization: this._authorization,
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(link)
+    // })
+    //   .then(res => res.json())
+    //   .then(err => Promise.reject(`произошла ошибка при отправке аватара: ${err}`));
+  }
+
+  // Добавление лайка на сервер
+  likeCardServer(idCard) {
+    return fetch(this._likeCardUrl + `${idCard}`, {
+      method: 'PUT',
+      headers: {
+        authorization: this._authorization,
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => res.json())
+      .then(err => Promise.reject(`произошла ошибка при добавлении лайка: ${err}`));
+  }
+
+  // Удаление лайка на сервере.
+  //! Нужно ещё id прописать.
+  deletelikeCardServer(idCard) {
+    return fetch(this._likeCardUrl + `${idCard}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._authorization,
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then(err => Promise.reject(`произошла ошибка при удалении лайка: ${err}`));
+  }
 
 }
 
