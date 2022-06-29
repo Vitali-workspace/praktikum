@@ -22,6 +22,8 @@ const popupImageName = container.querySelector('.popup__image-name');
 
 const popupAvatar = document.querySelector('#popupAvatar');
 const popupDeleteCard = document.querySelector('#popupDeleteCard');
+const profileButtonAvatar = document.querySelector('.profile__edit-icon');
+const profilePhoto = document.querySelector('.profile__photo');
 
 const objElements = {
   formSelector: '.form',
@@ -59,6 +61,8 @@ export {
   popupImageName,
   popupAvatar,
   popupDeleteCard,
+  profileButtonAvatar,
+  profilePhoto,
   objElements,
   configApi
 };
