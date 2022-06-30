@@ -17,6 +17,8 @@ import {
   popupImageName,
   popupAvatar,
   popupDeleteCard,
+  profileButtonAvatar,
+  profilePhoto,
   objElements,
   configApi
 } from '../utils/constans.js';
@@ -61,8 +63,7 @@ function handleRemoveIconClick(id, card) {
 function ConfirmDeleteCard(id, card) {
   requestApi.deleteCardServer(id)
     .then(res => {
-      //card.remove();
-      //! не работает удаление из dom
+      card._removeCard();
       popupWithConfirm.close();
     })
     .catch(err => Promise.reject(`Ошибка при удалении карточки: ${err}`))
@@ -89,7 +90,6 @@ const printCards = new Section(
   }, gallery);
 
 // отрисовка существующих карточек на сервере
-//! id
 requestApi.getInitialCards()
   .then(cards => {
     printCards.printElement(cards);
@@ -97,19 +97,15 @@ requestApi.getInitialCards()
 
 
 // Добавление карточки на сервер пользователем
+//! не добавляет в dom
 function handleDataCard(iputsInfo) {
   requestApi.addCardServer(iputsInfo)
     .then(res => {
-      return newCard = {
-        name: newCardName.value,
-        link: newCardLink.value
-      }
-    })
-    .then(res => {
-      const elementCard = getReadyCard(res);
+      const newCard = { name: newCardName.value, link: newCardLink.value }
+
+      const elementCard = getReadyCard(newCard);
       printCards.addItemUser(elementCard);
       validFormAddCard.disableSubmitButton();
-      return res;
     })
     .catch(err => Promise.reject(`Ошибка с карточкой на сервере: ${err}`))
 }
@@ -123,16 +119,31 @@ function ProfileInfo(newProfileInfo) {
 
 // Отправка на сервер профиля.
 const popupWithFormProfile = new PopupWithForm(popupEdit, () => {
-  const userProfileResult = userProfile.setUserInfo(inputName, inputDescription);
+  const userProfileResult = userProfile.setUserInfo(inputName, inputDescription, profilePhoto.src);
   ProfileInfo(userProfileResult);
 });
 
 const popupWithImage = new PopupWithImage(popupCardImg);
-const userProfile = new UserInfo({ name: '.profile__name', description: '.profile__description' });
+const userProfile = new UserInfo({ name: '.profile__name', description: '.profile__description', avatar: '.profile__photo' });
 
+
+//!==============================
+const editAvatar = new PopupWithForm(popupAvatar);
+editAvatar.setEventListeners();
+
+function popupEditAvatar() {
+  console.log('ava');
+  editAvatar.open();
+  validFormAddCard.resetInputErorr();
+}
+
+profileButtonAvatar.addEventListener('click', popupEditAvatar);
+
+//!==============================
 profileButtonAdd.addEventListener('click', function () {
   popupWithFormAdd.open();
-  validFormAddCard.resetInputErorr();
+  //! настроить валидацию
+  //validFormAddCard.resetInputErorr();
 });
 
 // получение данных с сервера для заполнения профеля
@@ -147,6 +158,7 @@ requestApi.getProfileInfo()
   })
   .then(objsData => {
     const profileDatas = userProfile.getUserInfo(objsData);
+    //! получаем все 3 установленных свойства из профиля страницы
   })
   .catch(err => Promise.reject(`Ошибка с профилем: ${err}`));
 
@@ -175,6 +187,7 @@ profileButtonEdit.addEventListener('click', function () {
     })
     .catch(err => Promise.reject(`Ошибка при получении профиля: ${err}`));
 });
+
 
 popupWithFormProfile.setEventListeners();
 popupWithFormAdd.setEventListeners();
