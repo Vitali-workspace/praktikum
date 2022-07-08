@@ -1,7 +1,7 @@
 .profile__edit-icon {
   background-repeat: no-repeat;
   position: absolute;
-  margin-top: 38px;
+  margin-top: 30px;
   top: 0;
   left: 0;
   width: 130px;
@@ -10,7 +10,7 @@
   border: none;
   cursor: pointer;
   background-size: 26px 26px;
-  background-position: center;
+  background-position: 47%;
   padding: 0;
 }
 
