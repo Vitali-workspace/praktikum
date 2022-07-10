@@ -2,7 +2,8 @@
   display: grid;
   max-width: 880px;
   grid-template-rows: 120px auto;
-  grid-template-columns: 120px 39% auto 150px;
+  /* grid-template-columns: 120px 39% auto 150px; */
+  grid-template-columns: 120px minmax(min-content, 140px) auto 150px;
   grid-template-areas:
     "photo name btn-edit btn-add"
     "photo description btn-edit btn-add";
@@ -10,7 +11,8 @@
 
 @media screen and (max-width: 1024px) {
   .profile {
-    grid-template-columns: 120px 41% auto 150px;
+    /* grid-template-columns: 120px 41% auto 150px; */
+    grid-template-columns: 120px minmax(min-content, 110px) auto 150px;
   }
 }
 
@@ -21,10 +23,10 @@
     grid-template-columns: 320px;
     justify-items: center;
     grid-template-areas:
-    "photo"
-    "name"
-    "description"
-    "btn-edit"
-    "btn-add";
+      "photo"
+      "name"
+      "description"
+      "btn-edit"
+      "btn-add";
   }
 }
