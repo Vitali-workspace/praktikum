@@ -2,30 +2,29 @@ class UserInfo {
   constructor(selectorProfile) {
     this._profileName = document.querySelector(selectorProfile.name);
     this._profileDescription = document.querySelector(selectorProfile.description);
-    //this._profileAvatar = '';
-    // ! нужен селектор на аватар в профиле. objsData.serverAvatar
+    this._profileAvatar = document.querySelector(selectorProfile.avatar);
   }
 
   getUserInfo(objsData) {
     // Возвращает значения записаные в профиле
-    // ! нужен this._profileAvatar. objsData.serverAvatar
-    //console.log(objsData.serverName);
-
     const profileResult = {
       name: this._profileName.textContent = objsData.serverName,
       description: this._profileDescription.textContent = objsData.serverJob,
-      avatar: ''
+      avatar: this._profileAvatar.src = objsData.serverAvatar
     }
     return profileResult;
   }
 
   // ! Тут данные уйдут на сервер.
-  setUserInfo(inputProfileName, inputProfileDescription) {
-    // запись нового текста в профиль из полей ввода
-    const a = this._profileName.textContent = inputProfileName.value;
-    const b = this._profileDescription.textContent = inputProfileDescription.value;
-    const obj = { name: a, job: b }
-    return obj;
+  setUserInfo(inputProfileName, inputProfileDescription, avatar) {
+    // Сохраняет новые данные в профиль страницы из формы
+    const profileName = this._profileName.textContent = inputProfileName.value;
+    const profileDescription = this._profileDescription.textContent = inputProfileDescription.value;
+    const profileAvatar = this._profileAvatar.src = avatar;
+
+    const objProfile = { name: profileName, job: profileDescription, avatar: profileAvatar }
+    console.log(objProfile);
+    return objProfile;
   }
 }
 

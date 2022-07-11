@@ -12,6 +12,7 @@ const newCardLink = container.querySelector('#inputAddLink');
 
 const formAddCard = container.querySelector('#formAdd');
 const formEdit = document.querySelector('#formEdit');
+const formAvatar = document.querySelector('#formAddAvatar');
 
 const popupEdit = container.querySelector('#popupEdit');
 const popupAddCard = container.querySelector('#popupAddCard');
@@ -54,6 +55,7 @@ export {
   newCardLink,
   formAddCard,
   formEdit,
+  formAvatar,
   popupEdit,
   popupAddCard,
   popupCardImg,
