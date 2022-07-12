@@ -6,7 +6,6 @@ class Card {
     handleLikeClick,
     handleRemoveIconClick,
     selectorTemplateCard) {
-    //=======================
 
     this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick; //! не сделаны
@@ -15,7 +14,6 @@ class Card {
     this._idOwner = dataNewCard.owner._id; // id других пользователей
     this._idMyUser = '4987bc3550b8e71731203311';
     this._listUserLikes = dataNewCard.likes;
-
 
     this._nameCard = dataNewCard.name;
     this._linkCard = dataNewCard.link;
@@ -49,8 +47,7 @@ class Card {
     }
   }
 
-  //! Возможно больше не нужно
-  btnTrash() {
+  _removeCard() {
     this._templateCardContent.remove();
     this._templateCardContent = null;
   }
