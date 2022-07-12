@@ -9,7 +9,7 @@ class Api {
   }
 
   // проверка на ошибки при отправке запроса на сервер
-  checkError(res) {
+  _checkError(res) {
     if (res.ok) {
       return res.json();
     }
@@ -24,8 +24,8 @@ class Api {
         'Content-Type': 'application/json'
       }
     })
-      .then(res => res.json())
-      .catch(err => Promise.reject(`произошла Ужасная ошибка с каточками: ${err}`));
+      .then(this._checkError)
+      .catch(err => Promise.reject(`произошла ошибка с каточками: ${err}`));
   }
 
 
@@ -38,10 +38,8 @@ class Api {
         'Content-Type': 'application/json'
       }
     })
-      .then(res => {
-        return res.json()
-      })
-      .catch(err => Promise.reject(`произошла Ужасная ошибка с профилем: ${err}`));
+      .then(this._checkError)
+      .catch(err => Promise.reject(`произошла ошибка с профилем: ${err}`));
   }
 
 
@@ -55,8 +53,8 @@ class Api {
       },
       body: JSON.stringify({ name: `${newProfileInfo.name}`, about: `${newProfileInfo.job}` })
     })
-      .then(res => res.json())
-      .catch(err => console.log(err));
+      .then(this._checkError)
+      .catch(err => Promise.reject(`произошла ошибка при отправке профиля: ${err}`));
   }
 
   // добавление новой карточки на сервер
@@ -69,8 +67,8 @@ class Api {
       },
       body: JSON.stringify({ name: `${iputsInfo.formName}`, link: `${iputsInfo.formText}` })
     })
-      .then(res => res.json())
-      .catch(err => console.log(err));
+      .then(this._checkError)
+      .catch(err => Promise.reject(`произошла ошибка при отправке карточки: ${err}`));
   }
 
   // Удаление карточки на сервере.
@@ -82,8 +80,8 @@ class Api {
         'Content-Type': 'application/json'
       }
     })
-      .then(res => res.json())
-      .catch(err => console.log(err));
+      .then(this._checkError)
+      .catch(err => Promise.reject(`произошла ошибка при удалении карточки: ${err}`));
   }
 
   // Загрузка нового аватара на сервер
@@ -96,8 +94,8 @@ class Api {
       },
       body: JSON.stringify({ avatar: `${link.formText}` })
     })
-      .then(res => res.json())
-      .then(err => Promise.reject(`произошла ошибка при отправке аватара: ${err}`));
+      .then(this._checkError)
+      .catch(err => Promise.reject(`произошла ошибка при отправке аватара: ${err}`));
   }
 
   // Добавление лайка на сервер
@@ -109,12 +107,11 @@ class Api {
         'Content-Type': 'application/json'
       },
     })
-      .then(res => res.json())
-      .then(err => Promise.reject(`произошла ошибка при добавлении лайка: ${err}`));
+      .then(this._checkError)
+      .catch(err => Promise.reject(`произошла ошибка при добавлении лайка: ${err}`));
   }
 
   // Удаление лайка на сервере.
-  //! Нужно ещё id прописать.
   deletelikeCardServer(idCard) {
     return fetch(this._likeCardUrl + `${idCard}`, {
       method: 'DELETE',
@@ -123,12 +120,8 @@ class Api {
         'Content-Type': 'application/json'
       },
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .then(err => Promise.reject(`произошла ошибка при удалении лайка: ${err}`));
+      .then(this._checkError)
+      .catch(err => Promise.reject(`произошла ошибка при удалении лайка: ${err}`));
   }
 
 }
