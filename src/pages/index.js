@@ -10,6 +10,7 @@ import {
   newCardLink,
   formAddCard,
   formEdit,
+  formAvatar,
   popupEdit,
   popupAddCard,
   popupCardImg,
@@ -37,6 +38,8 @@ const requestApi = new Api(configApi);
 
 const validFormEdit = new FormValidator(objElements, formEdit);
 const validFormAddCard = new FormValidator(objElements, formAddCard);
+const validFormAvatar = new FormValidator(objElements, formAvatar);
+validFormAvatar.enableValidation();
 validFormEdit.enableValidation();
 validFormAddCard.enableValidation();
 
@@ -64,6 +67,7 @@ function ConfirmDeleteCard(id, card) {
   requestApi.deleteCardServer(id)
     .then(res => {
       card._removeCard();
+      popupWithConfirm.loadingStatus(false);
       popupWithConfirm.close();
     })
     .catch(err => Promise.reject(`Ошибка при удалении карточки: ${err}`))
@@ -89,52 +93,66 @@ const printCards = new Section(
     }
   }, gallery);
 
-// отрисовка существующих карточек на сервере
-requestApi.getInitialCards()
-  .then(cards => {
-    printCards.printElement(cards);
-  }).catch(err => Promise.reject(`Ошибка с карточками загружеными с сервера: ${err}`));
-
+// отрисовка существующих начальных карточек на сервере
+function printInitialCards() {
+  requestApi.getInitialCards()
+    .then(cards => {
+      printCards.printElement(cards);
+    }).catch(err => Promise.reject(`Ошибка с карточками загружеными с сервера: ${err}`));
+}
+printInitialCards();
 
 // Добавление карточки на сервер пользователем
-//! не добавляет в dom
+//! ========
 function handleDataCard(iputsInfo) {
-  requestApi.addCardServer(iputsInfo)
-    .then(res => {
-      const newCard = { name: newCardName.value, link: newCardLink.value }
 
-      const elementCard = getReadyCard(newCard);
-      printCards.addItemUser(elementCard);
-      validFormAddCard.disableSubmitButton();
-    })
-    .catch(err => Promise.reject(`Ошибка с карточкой на сервере: ${err}`))
+  // const newCard = {
+  //   name: newCardName.value,
+  //   link: newCardLink.value,
+  //   _id: '',
+  //   owner: { _id: '' },
+  //   likes: ['']
+  // }
+  // const elementCard = getReadyCard(newCard);
+  // printCards.addItemUser(elementCard);
+  // validFormAddCard.disableSubmitButton();
+
+  // requestApi.addCardServer(iputsInfo)
+  //   .finally(() => {
+  //     popupWithFormAdd.loadingStatus('createCard');
+  //   });
 }
 
 const popupWithFormAdd = new PopupWithForm(popupAddCard, handleDataCard);
-
-
-function ProfileInfo(newProfileInfo) {
-  requestApi.changeProfileInfo(newProfileInfo);
-}
+//! =====
 
 // Отправка на сервер профиля.
 const popupWithFormProfile = new PopupWithForm(popupEdit, () => {
   const userProfileResult = userProfile.setUserInfo(inputName, inputDescription, profilePhoto.src);
-  ProfileInfo(userProfileResult);
+  requestApi.changeProfileInfo(userProfileResult)
+    .finally(() => {
+      popupWithFormProfile.loadingStatus(false);
+    });
 });
 
 const popupWithImage = new PopupWithImage(popupCardImg);
 const userProfile = new UserInfo({ name: '.profile__name', description: '.profile__description', avatar: '.profile__photo' });
 
-
 //!==============================
-const editAvatar = new PopupWithForm(popupAvatar);
+const editAvatar = new PopupWithForm(popupAvatar, (avatarPhoto) => {
+  requestApi.addAvatarServer(avatarPhoto)
+    .finally(() => {
+      editAvatar.loadingStatus(false);
+    });
+  profilePhoto.src = avatarPhoto.formText;
+  validFormAvatar.disableSubmitButton();
+});
 editAvatar.setEventListeners();
 
+// функция кнопки редактирования аватара
 function popupEditAvatar() {
-  console.log('ava');
   editAvatar.open();
-  validFormAddCard.resetInputErorr();
+  validFormAvatar.resetInputErorr();
 }
 
 profileButtonAvatar.addEventListener('click', popupEditAvatar);
@@ -142,8 +160,7 @@ profileButtonAvatar.addEventListener('click', popupEditAvatar);
 //!==============================
 profileButtonAdd.addEventListener('click', function () {
   popupWithFormAdd.open();
-  //! настроить валидацию
-  //validFormAddCard.resetInputErorr();
+  validFormAddCard.resetInputErorr();
 });
 
 // получение данных с сервера для заполнения профеля
@@ -157,8 +174,7 @@ requestApi.getProfileInfo()
     return objsData;
   })
   .then(objsData => {
-    const profileDatas = userProfile.getUserInfo(objsData);
-    //! получаем все 3 установленных свойства из профиля страницы
+    userProfile.getUserInfo(objsData);
   })
   .catch(err => Promise.reject(`Ошибка с профилем: ${err}`));
 
@@ -192,6 +208,5 @@ profileButtonEdit.addEventListener('click', function () {
 popupWithFormProfile.setEventListeners();
 popupWithFormAdd.setEventListeners();
 popupWithImage.setEventListeners();
-
 
 export { popupImage, popupImageName };
