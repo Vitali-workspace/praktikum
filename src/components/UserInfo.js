@@ -15,7 +15,6 @@ class UserInfo {
     return profileResult;
   }
 
-  // ! Тут данные уйдут на сервер.
   setUserInfo(inputProfileName, inputProfileDescription, avatar) {
     // Сохраняет новые данные в профиль страницы из формы
     const profileName = this._profileName.textContent = inputProfileName.value;
@@ -23,7 +22,6 @@ class UserInfo {
     const profileAvatar = this._profileAvatar.src = avatar;
 
     const objProfile = { name: profileName, job: profileDescription, avatar: profileAvatar }
-    console.log(objProfile);
     return objProfile;
   }
 }
