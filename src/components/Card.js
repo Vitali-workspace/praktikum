@@ -9,7 +9,6 @@ class Card {
 
     this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
-    console.log(this._handleLikeClick);
     this._handleRemoveIconClick = handleRemoveIconClick;
     this._idCard = dataNewCard._id;
     this._idOwner = dataNewCard.owner._id; // id других пользователей
@@ -30,35 +29,31 @@ class Card {
     this._templateCardContent.querySelector('.gallery__card-name').textContent = `${this._nameCard}`;
     this._galleryCardImage.src = `${this._linkCard}`;
     this._galleryCardImage.alt = `${this._nameCard}`;
+    this._buttonLike = this._templateCardContent.querySelector('.gallery__btn-favorites');
 
     this._hiddenBtnTrash();
     this._counterLikes();
     this._setEventListeners();
+    this.setFavorites(this._listUserLikes);
     return this._templateCardContent;
   }
 
   _checkLikes() {
     return this._listUserLikes.some(item => {
-      return item._id == this._idOwner
+      return item._id == this._idMyUser
     })
   }
 
   // проверка лайков
   setFavorites(listLike) {
-    this._buttonLike = this._templateCardContent.querySelector('.gallery__btn-favorites');
     this._templateCardContent.querySelector('.gallery__counter-favorites').textContent = listLike.length;
     this._listUserLikes = listLike;
-    const statusLike = this._checkLikes();
 
-    if (statusLike) {
+    if (this._checkLikes()) {
       // ставим лайк
-      console.warn(this);
-      console.warn('лайк из Кард класса');
       this._buttonLike.classList.add('gallery__btn-favorites_active');
     } else {
       // снятие лайка
-      console.warn('диз из Кард класса');
-      console.log(this);
       this._buttonLike.classList.remove('gallery__btn-favorites_active');
     }
   }

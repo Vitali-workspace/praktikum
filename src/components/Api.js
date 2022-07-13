@@ -100,7 +100,7 @@ class Api {
 
   // Добавление лайка на сервер
   likeCardServer(idCard) {
-    return fetch(this._likeCardUrl + `${idCard}`, {
+    return fetch(this._likeCardUrl + `${idCard}/likes`, {
       method: 'PUT',
       headers: {
         authorization: this._authorization,
@@ -113,7 +113,7 @@ class Api {
 
   // Удаление лайка на сервере.
   deletelikeCardServer(idCard) {
-    return fetch(this._likeCardUrl + `${idCard}`, {
+    return fetch(this._likeCardUrl + `${idCard}/likes`, {
       method: 'DELETE',
       headers: {
         authorization: this._authorization,

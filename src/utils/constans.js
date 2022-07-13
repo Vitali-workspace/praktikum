@@ -7,8 +7,8 @@ const inputDescription = document.querySelector('#inputEditText');
 const templateCard = document.querySelector('#tempCard').content;
 const gallery = container.querySelector('.gallery');
 
-const newCardName = container.querySelector('#inputAddName');
-const newCardLink = container.querySelector('#inputAddLink');
+//const newCardName = container.querySelector('#inputAddName');
+//const newCardLink = container.querySelector('#inputAddLink');
 
 const formAddCard = container.querySelector('#formAdd');
 const formEdit = document.querySelector('#formEdit');
@@ -51,8 +51,6 @@ export {
   inputDescription,
   templateCard,
   gallery,
-  newCardName,
-  newCardLink,
   formAddCard,
   formEdit,
   formAvatar,

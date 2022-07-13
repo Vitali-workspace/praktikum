@@ -6,8 +6,6 @@ import {
   inputDescription,
   templateCard,
   gallery,
-  newCardName,
-  newCardLink,
   formAddCard,
   formEdit,
   formAvatar,
