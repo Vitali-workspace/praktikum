@@ -40,7 +40,7 @@ const configApi = {
   profileInfoUrl: 'https://nomoreparties.co/v1/cohort-40/users/me',
   profileAvatarUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/users/me/avatar',
   deleteCardUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards/',
-  likeCardUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards/cohort-40/likes',
+  likeCardUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards/',
   cardsUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards'
 }
 
