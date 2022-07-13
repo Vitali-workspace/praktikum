@@ -8,7 +8,8 @@ class Card {
     selectorTemplateCard) {
 
     this._handleCardClick = handleCardClick;
-    this._handleLikeClick = handleLikeClick; //! не сделаны
+    this._handleLikeClick = handleLikeClick;
+    console.log(this._handleLikeClick);
     this._handleRemoveIconClick = handleRemoveIconClick;
     this._idCard = dataNewCard._id;
     this._idOwner = dataNewCard.owner._id; // id других пользователей
@@ -36,8 +37,30 @@ class Card {
     return this._templateCardContent;
   }
 
-  _btnFavorites() {
-    this.classList.toggle('gallery__btn-favorites_active');
+  _checkLikes() {
+    return this._listUserLikes.some(item => {
+      return item._id == this._idOwner
+    })
+  }
+
+  // проверка лайков
+  setFavorites(listLike) {
+    this._buttonLike = this._templateCardContent.querySelector('.gallery__btn-favorites');
+    this._templateCardContent.querySelector('.gallery__counter-favorites').textContent = listLike.length;
+    this._listUserLikes = listLike;
+    const statusLike = this._checkLikes();
+
+    if (statusLike) {
+      // ставим лайк
+      console.warn(this);
+      console.warn('лайк из Кард класса');
+      this._buttonLike.classList.add('gallery__btn-favorites_active');
+    } else {
+      // снятие лайка
+      console.warn('диз из Кард класса');
+      console.log(this);
+      this._buttonLike.classList.remove('gallery__btn-favorites_active');
+    }
   }
 
   _hiddenBtnTrash() {
@@ -65,7 +88,9 @@ class Card {
   }
 
   _setEventListeners() {
-    this._templateCardContent.querySelector('.gallery__btn-favorites').addEventListener('click', this._btnFavorites);
+    this._templateCardContent.querySelector('.gallery__btn-favorites').addEventListener('click', () => {
+      this._handleLikeClick(this._idCard, this._checkLikes(), this);
+    });
     this._templateCardContent.querySelector('.gallery__btn-trash').addEventListener('click', () => {
       this._handleRemoveIconClick(this._idCard, this);
     });

@@ -52,11 +52,25 @@ function handleCardClick(nameCard, linkCard) {
   popupWithImage.open(nameCard, linkCard);
 }
 
-function handleLikeClick() {
-  //! api dislike
+// функция управления лайками
+function handleLikeClick(idCard, isLike, newBuildCard) {
+
+  if (isLike) {
+    requestApi.deletelikeCardServer(idCard)
+      .then(res => {
+        console.log(res.likes);
+        newBuildCard.setFavorites(res.likes)
+      }).catch(err => { console.warn(`Ошибка при удалении лайка: ${err}`) })
+
+  } else {
+    requestApi.likeCardServer(idCard)
+      .then(res => {
+        console.log(res.likes);
+        newBuildCard.setFavorites(res.likes)
+      }).catch(err => { console.warn(`Ошибка при установлении лайка: ${err}`) })
+  }
 }
 
-//===================================
 // колбэк клика на корзину.
 function handleRemoveIconClick(id, card) {
   popupWithConfirm.submitDeleteCard(() => { ConfirmDeleteCard(id, card) });
