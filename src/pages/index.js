@@ -34,7 +34,7 @@ import { Api } from '../components/Api.js';
 import { PopupWithConfirm } from '../components/PopupWithConfirm.js';
 
 // отправляет запросы на сервер
-const requestApi = new Api(configApi);
+const requestApi = new Api(configApi)
 
 const validFormEdit = new FormValidator(objElements, formEdit);
 const validFormAddCard = new FormValidator(objElements, formAddCard);
@@ -72,7 +72,6 @@ function ConfirmDeleteCard(id, card) {
     })
     .catch(err => Promise.reject(`Ошибка при удалении карточки: ${err}`))
 }
-//==================================
 
 // возвращает готовую карточку
 function getReadyCard(dataCards) {
@@ -103,33 +102,28 @@ function printInitialCards() {
 printInitialCards();
 
 // Добавление карточки на сервер пользователем
-//! ========
 function handleDataCard(iputsInfo) {
 
-  // const newCard = {
-  //   name: newCardName.value,
-  //   link: newCardLink.value,
-  //   _id: '',
-  //   owner: { _id: '' },
-  //   likes: ['']
-  // }
-  // const elementCard = getReadyCard(newCard);
-  // printCards.addItemUser(elementCard);
-  // validFormAddCard.disableSubmitButton();
-
-  // requestApi.addCardServer(iputsInfo)
-  //   .finally(() => {
-  //     popupWithFormAdd.loadingStatus('createCard');
-  //   });
+  requestApi.addCardServer(iputsInfo)
+    .then(newUserCard => {
+      const newCard = getReadyCard(newUserCard);
+      printCards.addItemUser(newCard);
+      validFormAddCard.disableSubmitButton();
+    })
+    .catch(err => Promise.reject(`Ошибка при добавлении карточки: ${err}`))
+    .finally(() => {
+      popupWithFormAdd.loadingStatus('createCard');
+    });
 }
 
 const popupWithFormAdd = new PopupWithForm(popupAddCard, handleDataCard);
-//! =====
+
 
 // Отправка на сервер профиля.
 const popupWithFormProfile = new PopupWithForm(popupEdit, () => {
   const userProfileResult = userProfile.setUserInfo(inputName, inputDescription, profilePhoto.src);
   requestApi.changeProfileInfo(userProfileResult)
+    .catch(err => Promise.reject(`Ошибка при отправке профиля: ${err}`))
     .finally(() => {
       popupWithFormProfile.loadingStatus(false);
     });
@@ -138,9 +132,10 @@ const popupWithFormProfile = new PopupWithForm(popupEdit, () => {
 const popupWithImage = new PopupWithImage(popupCardImg);
 const userProfile = new UserInfo({ name: '.profile__name', description: '.profile__description', avatar: '.profile__photo' });
 
-//!==============================
+
 const editAvatar = new PopupWithForm(popupAvatar, (avatarPhoto) => {
   requestApi.addAvatarServer(avatarPhoto)
+    .catch(err => Promise.reject(`Ошибка при добавлении аватара: ${err}`))
     .finally(() => {
       editAvatar.loadingStatus(false);
     });
@@ -157,7 +152,7 @@ function popupEditAvatar() {
 
 profileButtonAvatar.addEventListener('click', popupEditAvatar);
 
-//!==============================
+
 profileButtonAdd.addEventListener('click', function () {
   popupWithFormAdd.open();
   validFormAddCard.resetInputErorr();
@@ -194,7 +189,6 @@ profileButtonEdit.addEventListener('click', function () {
     })
     .then(objsData => {
       const profileData = userProfile.getUserInfo(objsData);
-      console.log(profileData);
 
       // копирования данных в поля инпута из профиля
       inputName.value = profileData.name;
