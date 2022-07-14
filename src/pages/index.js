@@ -71,11 +71,11 @@ function handleLikeClick(idCard, isLike, newBuildCard) {
 
 // колбэк клика на корзину.
 function handleRemoveIconClick(id, card) {
-  popupWithConfirm.submitDeleteCard(() => { ConfirmDeleteCard(id, card) });
+  popupWithConfirm.submitDeleteCard(() => { confirmDeleteCard(id, card) });
   popupWithConfirm.open();
 }
 // функция для удаления карточек на сервере
-function ConfirmDeleteCard(id, card) {
+function confirmDeleteCard(id, card) {
   requestApi.deleteCardServer(id)
     .then(res => {
       card.removeCard();
