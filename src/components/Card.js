@@ -65,7 +65,7 @@ class Card {
     }
   }
 
-  _removeCard() {
+  removeCard() {
     this._templateCardContent.remove();
     this._templateCardContent = null;
   }

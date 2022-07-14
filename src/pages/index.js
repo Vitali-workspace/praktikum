@@ -78,7 +78,7 @@ function handleRemoveIconClick(id, card) {
 function ConfirmDeleteCard(id, card) {
   requestApi.deleteCardServer(id)
     .then(res => {
-      card._removeCard();
+      card.removeCard();
       popupWithConfirm.loadingStatus(false);
       popupWithConfirm.close();
     })
