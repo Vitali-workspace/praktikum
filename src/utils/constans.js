@@ -7,9 +7,6 @@ const inputDescription = document.querySelector('#inputEditText');
 const templateCard = document.querySelector('#tempCard').content;
 const gallery = container.querySelector('.gallery');
 
-//const newCardName = container.querySelector('#inputAddName');
-//const newCardLink = container.querySelector('#inputAddLink');
-
 const formAddCard = container.querySelector('#formAdd');
 const formEdit = document.querySelector('#formEdit');
 const formAvatar = document.querySelector('#formAddAvatar');
