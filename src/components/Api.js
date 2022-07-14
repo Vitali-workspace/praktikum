@@ -10,9 +10,10 @@ class Api {
 
   // проверка на ошибки при отправке запроса на сервер
   _checkError(res) {
-    if (res.ok) {
-      return res.json();
+    if (!res.ok) {
+      return Promise.reject(`произошла ошибка: ${res.status}`)
     }
+    return res.json();
   }
 
   // загрузка карточек с сервера
