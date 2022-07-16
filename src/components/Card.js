@@ -71,7 +71,7 @@ class Card {
   }
 
   _counterLikes() {
-    let counter = this._templateCardContent.querySelector('.gallery__counter-favorites');
+    const counter = this._templateCardContent.querySelector('.gallery__counter-favorites');
     counter.textContent = this._listUserLikes.length;
   }
 
