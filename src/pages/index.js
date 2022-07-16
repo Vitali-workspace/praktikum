@@ -120,7 +120,6 @@ function handleDataCard(iputsInfo) {
     .then(newUserCard => {
       const newCard = getReadyCard(newUserCard);
       printCards.addItemUser(newCard);
-      validFormAddCard.disableSubmitButton();
     })
     .catch(err => Promise.reject(`Ошибка при добавлении карточки: ${err}`))
     .finally(() => {
@@ -152,13 +151,13 @@ const editAvatar = new PopupWithForm(popupAvatar, (avatarPhoto) => {
       editAvatar.loadingStatus(false);
     });
   profilePhoto.src = avatarPhoto.formText;
-  validFormAvatar.disableSubmitButton();
 });
 editAvatar.setEventListeners();
 
 // функция кнопки редактирования аватара
 function popupEditAvatar() {
   editAvatar.open();
+  validFormAvatar.disableSubmitButton();
   validFormAvatar.resetInputErorr();
 }
 
@@ -167,6 +166,7 @@ profileButtonAvatar.addEventListener('click', popupEditAvatar);
 
 profileButtonAdd.addEventListener('click', function () {
   popupWithFormAdd.open();
+  validFormAddCard.disableSubmitButton();
   validFormAddCard.resetInputErorr();
 });
 
@@ -205,6 +205,7 @@ profileButtonEdit.addEventListener('click', function () {
       // копирования данных в поля инпута из профиля
       inputName.value = profileData.name;
       inputDescription.value = profileData.description;
+      validFormEdit.disableSubmitButton();
       validFormEdit.resetInputErorr();
     })
     .catch(err => Promise.reject(`Ошибка при получении профиля: ${err}`));
