@@ -15,8 +15,6 @@ const popupEdit = container.querySelector('#popupEdit');
 const popupAddCard = container.querySelector('#popupAddCard');
 
 const popupCardImg = container.querySelector('#popupCardImg');
-const popupImage = container.querySelector('.popup__image');
-const popupImageName = container.querySelector('.popup__image-name');
 
 const popupAvatar = document.querySelector('#popupAvatar');
 const popupDeleteCard = document.querySelector('#popupDeleteCard');
@@ -54,8 +52,6 @@ export {
   popupEdit,
   popupAddCard,
   popupCardImg,
-  popupImage,
-  popupImageName,
   popupAvatar,
   popupDeleteCard,
   profileButtonAvatar,

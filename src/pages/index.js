@@ -12,8 +12,6 @@ import {
   popupEdit,
   popupAddCard,
   popupCardImg,
-  popupImage,
-  popupImageName,
   popupAvatar,
   popupDeleteCard,
   profileButtonAvatar,
@@ -120,13 +118,13 @@ function handleDataCard(iputsInfo) {
     .then(newUserCard => {
       const newCard = getReadyCard(newUserCard);
       printCards.addItemUser(newCard);
+      popupWithFormAdd.close();
     })
     .catch(err => Promise.reject(`Ошибка при добавлении карточки: ${err}`))
     .finally(() => {
       popupWithFormAdd.loadingStatus('createCard');
     });
 }
-
 const popupWithFormAdd = new PopupWithForm(popupAddCard, handleDataCard);
 
 
@@ -134,6 +132,7 @@ const popupWithFormAdd = new PopupWithForm(popupAddCard, handleDataCard);
 const popupWithFormProfile = new PopupWithForm(popupEdit, () => {
   const userProfileResult = userProfile.setUserInfo(inputName, inputDescription, profilePhoto.src);
   requestApi.changeProfileInfo(userProfileResult)
+    .then(() => popupWithFormProfile.close())
     .catch(err => Promise.reject(`Ошибка при отправке профиля: ${err}`))
     .finally(() => {
       popupWithFormProfile.loadingStatus(false);
@@ -146,6 +145,7 @@ const userProfile = new UserInfo({ name: '.profile__name', description: '.profil
 
 const editAvatar = new PopupWithForm(popupAvatar, (avatarPhoto) => {
   requestApi.addAvatarServer(avatarPhoto)
+    .then(() => editAvatar.close())
     .catch(err => Promise.reject(`Ошибка при добавлении аватара: ${err}`))
     .finally(() => {
       editAvatar.loadingStatus(false);
@@ -215,5 +215,3 @@ profileButtonEdit.addEventListener('click', function () {
 popupWithFormProfile.setEventListeners();
 popupWithFormAdd.setEventListeners();
 popupWithImage.setEventListeners();
-
-export { popupImage, popupImageName };

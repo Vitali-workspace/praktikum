@@ -1,5 +1,3 @@
-import { popupImage, popupImageName } from "../pages/index.js";
-
 class Card {
   constructor(dataNewCard,
     handleCardClick,
@@ -17,7 +15,7 @@ class Card {
 
     this._nameCard = dataNewCard.name;
     this._linkCard = dataNewCard.link;
-    this._popupImageName = popupImageName;
+    this._popupImageName = document.querySelector('.popup__image-name');;
     this._selectorTemplateCard = selectorTemplateCard;
     this._templateCardContent = this._selectorTemplateCard
       .querySelector('.gallery__card')
@@ -76,6 +74,7 @@ class Card {
   }
 
   _openImagePopup() {
+    const popupImage = document.querySelector('.popup__image');
     popupImage.src = `${this._linkCard}`;
     popupImage.alt = `${this._nameCard}`;
     this._popupImageName.textContent = `${this._nameCard}`;
