@@ -4,7 +4,8 @@ const profileButtonAdd = container.querySelector('.profile__btn-add');
 const inputName = document.querySelector('#inputEditName');
 const inputDescription = document.querySelector('#inputEditText');
 
-const templateCard = document.querySelector('#tempCard').content;
+const templateCard = document.querySelector('#tempCard'); //! не нужен
+
 const gallery = container.querySelector('.gallery');
 
 const formAddCard = container.querySelector('#formAdd');
@@ -13,7 +14,6 @@ const formAvatar = document.querySelector('#formAddAvatar');
 
 const popupEdit = container.querySelector('#popupEdit');
 const popupAddCard = container.querySelector('#popupAddCard');
-
 const popupCardImg = container.querySelector('#popupCardImg');
 
 const popupAvatar = document.querySelector('#popupAvatar');
@@ -30,14 +30,23 @@ const objElements = {
   errorClass: 'popup__input-error_active'
 }
 
-const configApi = {
-  tokenAuthorization: '6e087a0f-c27a-43c1-a0e6-91ac2272b53b',
-  profileInfoUrl: 'https://nomoreparties.co/v1/cohort-40/users/me',
-  profileAvatarUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/users/me/avatar',
-  deleteCardUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards/',
-  likeCardUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards/',
-  cardsUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards'
+const selectorPopup = {
+  template: '#tempCard',
+  edit: '#popupEdit',
+  addCard: '#popupAddCard',
+  cardImg: '#popupCardImg',
+  avatar: '#popupAvatar',
+  deleteCard: '#popupDeleteCard'
 }
+
+// const configApi = {
+//   tokenAuthorization: '6e087a0f-c27a-43c1-a0e6-91ac2272b53b',
+//   profileInfoUrl: 'https://nomoreparties.co/v1/cohort-40/users/me',
+//   profileAvatarUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/users/me/avatar',
+//   deleteCardUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards/',
+//   likeCardUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards/',
+//   cardsUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/cards'
+// }
 
 export {
   profileButtonEdit,
@@ -57,5 +66,5 @@ export {
   profileButtonAvatar,
   profilePhoto,
   objElements,
-  configApi
+  selectorPopup
 };

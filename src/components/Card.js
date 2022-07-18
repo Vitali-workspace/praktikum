@@ -1,9 +1,5 @@
 class Card {
-  constructor(dataNewCard,
-    handleCardClick,
-    handleLikeClick,
-    handleRemoveIconClick,
-    selectorTemplateCard) {
+  constructor(dataNewCard, handleCardClick, handleLikeClick, handleRemoveIconClick, selectorPopup) {
 
     this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
@@ -12,11 +8,12 @@ class Card {
     this._idOwner = dataNewCard.owner._id; // id других пользователей
     this._idMyUser = '4987bc3550b8e71731203311';
     this._listUserLikes = dataNewCard.likes;
+    //!console.log(selectorPopup.template);
 
     this._nameCard = dataNewCard.name;
     this._linkCard = dataNewCard.link;
-    this._popupImageName = document.querySelector('.popup__image-name');;
-    this._selectorTemplateCard = selectorTemplateCard;
+    this._popupImageName = document.querySelector('.popup__image-name');
+    this._selectorTemplateCard = document.querySelector(selectorPopup.template).content;
     this._templateCardContent = this._selectorTemplateCard
       .querySelector('.gallery__card')
       .cloneNode(true);
