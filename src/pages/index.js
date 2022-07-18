@@ -17,7 +17,7 @@ import {
   profileButtonAvatar,
   profilePhoto,
   objElements,
-  configApi
+  selectorPopup
 } from '../utils/constans.js';
 
 import { FormValidator } from '../components/FormValidator.js';
@@ -30,7 +30,13 @@ import { Api } from '../components/Api.js';
 import { PopupWithConfirm } from '../components/PopupWithConfirm.js';
 
 // отправляет запросы на сервер
-const requestApi = new Api(configApi)
+const requestApi = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/cohort-40/',
+  headers: {
+    authorization: '6e087a0f-c27a-43c1-a0e6-91ac2272b53b',
+    'Content-Type': 'application/json'
+  }
+});
 
 const validFormEdit = new FormValidator(objElements, formEdit);
 const validFormAddCard = new FormValidator(objElements, formAddCard);
@@ -40,7 +46,7 @@ validFormEdit.enableValidation();
 validFormAddCard.enableValidation();
 
 // попап подтверждения удаления
-const popupWithConfirm = new PopupWithConfirm(popupDeleteCard);
+const popupWithConfirm = new PopupWithConfirm(`${selectorPopup.deleteCard}`);
 popupWithConfirm.setEventListeners();
 
 // отвечает за открытие картинки в попапе
@@ -90,7 +96,7 @@ function getReadyCard(dataCards) {
     handleCardClick,
     handleLikeClick,
     handleRemoveIconClick,
-    templateCard);
+    selectorPopup);
   return newBuildCard.createTemplateCard();
 }
 
@@ -125,11 +131,11 @@ function handleDataCard(iputsInfo) {
       popupWithFormAdd.loadingStatus('createCard');
     });
 }
-const popupWithFormAdd = new PopupWithForm(popupAddCard, handleDataCard);
+const popupWithFormAdd = new PopupWithForm(`${selectorPopup.addCard}`, handleDataCard);
 
 
 // Отправка на сервер профиля.
-const popupWithFormProfile = new PopupWithForm(popupEdit, () => {
+const popupWithFormProfile = new PopupWithForm(`${selectorPopup.edit}`, () => {
   const userProfileResult = userProfile.setUserInfo(inputName, inputDescription, profilePhoto.src);
   requestApi.changeProfileInfo(userProfileResult)
     .then(() => popupWithFormProfile.close())
@@ -139,11 +145,11 @@ const popupWithFormProfile = new PopupWithForm(popupEdit, () => {
     });
 });
 
-const popupWithImage = new PopupWithImage(popupCardImg);
+const popupWithImage = new PopupWithImage(`${selectorPopup.cardImg}`);
 const userProfile = new UserInfo({ name: '.profile__name', description: '.profile__description', avatar: '.profile__photo' });
 
 
-const editAvatar = new PopupWithForm(popupAvatar, (avatarPhoto) => {
+const editAvatar = new PopupWithForm(`${selectorPopup.avatar}`, (avatarPhoto) => {
   requestApi.addAvatarServer(avatarPhoto)
     .then(() => editAvatar.close())
     .catch(err => Promise.reject(`Ошибка при добавлении аватара: ${err}`))
