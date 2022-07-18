@@ -1,11 +1,11 @@
 class Api {
   constructor(configApi) {
-    this._profileInfoUrl = configApi.profileInfoUrl;
-    this._profileAvatarUrl = configApi.profileAvatarUrl;
-    this._authorization = configApi.tokenAuthorization;
-    this._cardsUrl = configApi.cardsUrl;
-    this._likeCardUrl = configApi.likeCardUrl;
-    this._deleteCardUrl = configApi.deleteCardUrl;
+    this._profileInfoUrl = `${configApi.baseUrl}` + '/users/me';
+    this._profileAvatarUrl = `${configApi.baseUrl}` + `/users/me/avatar`;
+    this._cardsUrl = `${configApi.baseUrl}` + `cards`;
+    this._likeCardUrl = `${configApi.baseUrl}` + `cards/`;
+    this._deleteCardUrl = `${configApi.baseUrl}` + `cards/`;
+    this._headersProperty = configApi.headers;
   }
 
   // проверка на ошибки при отправке запроса на сервер
@@ -20,38 +20,27 @@ class Api {
   getInitialCards() {
     return fetch(this._cardsUrl, {
       method: 'GET',
-      headers: {
-        authorization: this._authorization,
-        'Content-Type': 'application/json'
-      }
+      headers: this._headersProperty
     })
       .then(this._checkError)
       .catch(err => Promise.reject(`произошла ошибка с каточками: ${err}`));
   }
 
-
   // загрузка данных профиля с сервера
   getProfileInfo() {
     return fetch(this._profileInfoUrl, {
       method: 'GET',
-      headers: {
-        authorization: this._authorization,
-        'Content-Type': 'application/json'
-      }
+      headers: this._headersProperty
     })
       .then(this._checkError)
       .catch(err => Promise.reject(`произошла ошибка с профилем: ${err}`));
   }
 
-
   // отправка новых данных профиля на сервер
   changeProfileInfo(newProfileInfo) {
     return fetch(this._profileInfoUrl, {
       method: 'PATCH',
-      headers: {
-        authorization: this._authorization,
-        'Content-Type': 'application/json'
-      },
+      headers: this._headersProperty,
       body: JSON.stringify({ name: `${newProfileInfo.name}`, about: `${newProfileInfo.job}` })
     })
       .then(this._checkError)
@@ -62,10 +51,7 @@ class Api {
   addCardServer(iputsInfo) {
     return fetch(this._cardsUrl, {
       method: 'POST',
-      headers: {
-        authorization: this._authorization,
-        'Content-Type': 'application/json'
-      },
+      headers: this._headersProperty,
       body: JSON.stringify({ name: `${iputsInfo.formName}`, link: `${iputsInfo.formText}` })
     })
       .then(this._checkError)
@@ -76,10 +62,7 @@ class Api {
   deleteCardServer(idCard) {
     return fetch(this._deleteCardUrl + `${idCard}`, {
       method: 'DELETE',
-      headers: {
-        authorization: this._authorization,
-        'Content-Type': 'application/json'
-      }
+      headers: this._headersProperty
     })
       .then(this._checkError)
       .catch(err => Promise.reject(`произошла ошибка при удалении карточки: ${err}`));
@@ -89,10 +72,7 @@ class Api {
   addAvatarServer(link) {
     return fetch(this._profileAvatarUrl, {
       method: 'PATCH',
-      headers: {
-        authorization: this._authorization,
-        'Content-Type': 'application/json'
-      },
+      headers: this._headersProperty,
       body: JSON.stringify({ avatar: `${link.formText}` })
     })
       .then(this._checkError)
@@ -103,10 +83,7 @@ class Api {
   likeCardServer(idCard) {
     return fetch(this._likeCardUrl + `${idCard}/likes`, {
       method: 'PUT',
-      headers: {
-        authorization: this._authorization,
-        'Content-Type': 'application/json'
-      },
+      headers: this._headersProperty,
     })
       .then(this._checkError)
       .catch(err => Promise.reject(`произошла ошибка при добавлении лайка: ${err}`));
@@ -116,10 +93,7 @@ class Api {
   deletelikeCardServer(idCard) {
     return fetch(this._likeCardUrl + `${idCard}/likes`, {
       method: 'DELETE',
-      headers: {
-        authorization: this._authorization,
-        'Content-Type': 'application/json'
-      },
+      headers: this._headersProperty,
     })
       .then(this._checkError)
       .catch(err => Promise.reject(`произошла ошибка при удалении лайка: ${err}`));
