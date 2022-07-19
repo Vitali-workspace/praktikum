@@ -6,7 +6,7 @@ class UserInfo {
   }
 
   getUserInfo() {
-    // Возвращает значения записаные в профиле
+    // Возвращает текст записанный в профиле
     const profileResult = {
       name: this._profileName.textContent,
       about: this._profileDescription.textContent
