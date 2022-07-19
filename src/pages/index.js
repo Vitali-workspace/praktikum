@@ -126,11 +126,16 @@ function handleDataCard(iputsInfo) {
 const popupWithFormAdd = new PopupWithForm(`${selectorPopup.addCard}`, handleDataCard);
 
 
-// Отправка на сервер профиля.
+// Отправка на сервер заполненого профиля.
 const popupWithFormProfile = new PopupWithForm(`${selectorPopup.edit}`, () => {
-  const userProfileResult = userProfile.setUserInfo(inputName, inputDescription, profilePhoto.src);
-  requestApi.changeProfileInfo(userProfileResult)
-    .then(() => popupWithFormProfile.close())
+  let profileData = { name: inputName.value, about: inputDescription.value, avatar: profilePhoto.src }
+  console.log(profileData);
+
+  requestApi.changeProfileInfo(profileData)
+    .then((res) => {
+      userProfile.setUserInfo(res);
+      popupWithFormProfile.close();
+    })
     .catch(err => Promise.reject(`Ошибка при отправке профиля: ${err}`))
     .finally(() => {
       popupWithFormProfile.loadingStatus(false);
@@ -143,12 +148,14 @@ const userProfile = new UserInfo({ name: '.profile__name', description: '.profil
 
 const editAvatar = new PopupWithForm(`${selectorPopup.avatar}`, (avatarPhoto) => {
   requestApi.addAvatarServer(avatarPhoto)
-    .then(() => editAvatar.close())
+    .then((res) => {
+      userProfile.setUserInfo(res);
+      editAvatar.close();
+    })
     .catch(err => Promise.reject(`Ошибка при добавлении аватара: ${err}`))
     .finally(() => {
       editAvatar.loadingStatus(false);
     });
-  profilePhoto.src = avatarPhoto.formText;
 });
 editAvatar.setEventListeners();
 
@@ -169,16 +176,13 @@ profileButtonAdd.addEventListener('click', function () {
 
 // получение данных с сервера для заполнения профиля
 requestApi.getProfileInfo()
-  .then(profileInfo => {
+  .then((profileInfo) => {
     const objsData = {
-      serverName: profileInfo.name,
-      serverJob: profileInfo.about,
-      serverAvatar: profileInfo.avatar
+      name: profileInfo.name,
+      about: profileInfo.about,
+      avatar: profileInfo.avatar
     }
-    return objsData;
-  })
-  .then(objsData => {
-    userProfile.getUserInfo(objsData);
+    userProfile.setUserInfo(objsData);
   })
   .catch(err => Promise.reject(`Ошибка с профилем: ${err}`));
 
@@ -188,20 +192,12 @@ profileButtonEdit.addEventListener('click', function () {
   // получаем объект с данными полей из инпута
 
   requestApi.getProfileInfo()
-    .then(profileInfo => {
-      const objsData = {
-        serverName: profileInfo.name,
-        serverJob: profileInfo.about,
-        serverAvatar: profileInfo.avatar
-      }
-      return objsData;
-    })
-    .then(objsData => {
-      const profileData = userProfile.getUserInfo(objsData);
-      console.log(profileData); //! ===
-      // копирования данных в поля инпута из профиля
+    .then(() => {
+      const profileData = userProfile.getUserInfo();
+
+      // подставление данных в поля инпута в момент открытия попапа
       inputName.value = profileData.name;
-      inputDescription.value = profileData.description;
+      inputDescription.value = profileData.about;
       validFormEdit.disableSubmitButton();
       validFormEdit.resetInputErorr();
     })
