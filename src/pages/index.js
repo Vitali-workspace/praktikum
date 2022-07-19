@@ -96,7 +96,8 @@ function getReadyCard(dataCards) {
     handleCardClick,
     handleLikeClick,
     handleRemoveIconClick,
-    selectorPopup);
+    selectorPopup,
+    myIdUser);
   return newBuildCard.createTemplateCard();
 }
 
@@ -107,15 +108,6 @@ const printCards = new Section(
       printCards.addItem(getReadyCard(elementCard));
     }
   }, gallery);
-
-// отрисовка существующих начальных карточек на сервере
-function printInitialCards() {
-  requestApi.getInitialCards()
-    .then(cards => {
-      printCards.printElement(cards);
-    }).catch(err => Promise.reject(`Ошибка с карточками загружеными с сервера: ${err}`));
-}
-printInitialCards();
 
 // Добавление карточки на сервер пользователем
 function handleDataCard(iputsInfo) {
@@ -166,7 +158,6 @@ function popupEditAvatar() {
   validFormAvatar.disableSubmitButton();
   validFormAvatar.resetInputErorr();
 }
-
 profileButtonAvatar.addEventListener('click', popupEditAvatar);
 
 
@@ -176,7 +167,7 @@ profileButtonAdd.addEventListener('click', function () {
   validFormAddCard.resetInputErorr();
 });
 
-// получение данных с сервера для заполнения профеля
+// получение данных с сервера для заполнения профиля
 requestApi.getProfileInfo()
   .then(profileInfo => {
     const objsData = {
@@ -207,7 +198,7 @@ profileButtonEdit.addEventListener('click', function () {
     })
     .then(objsData => {
       const profileData = userProfile.getUserInfo(objsData);
-
+      console.log(profileData); //! ===
       // копирования данных в поля инпута из профиля
       inputName.value = profileData.name;
       inputDescription.value = profileData.description;
@@ -217,7 +208,19 @@ profileButtonEdit.addEventListener('click', function () {
     .catch(err => Promise.reject(`Ошибка при получении профиля: ${err}`));
 });
 
-
 popupWithFormProfile.setEventListeners();
 popupWithFormAdd.setEventListeners();
 popupWithImage.setEventListeners();
+
+Promise.all([requestApi.getProfileInfo(), requestApi.getInitialCards()])
+  .then(([infoUser, initialCards]) => {
+    // отправка данных о пользователе с сервера
+    userProfile.setUserInfo(infoUser);
+
+    myIdUser = infoUser._id;
+    // отрисовка существующих начальных карточек на сервере
+    printCards.printElement(initialCards);
+  })
+  .catch(err => Promise.reject(`Ошибка получения промисов карточек и id пользователя: ${err}`));
+
+let myIdUser;
