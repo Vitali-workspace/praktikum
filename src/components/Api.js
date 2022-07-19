@@ -22,8 +22,7 @@ class Api {
       method: 'GET',
       headers: this._headersProperty
     })
-      .then(this._checkError)
-      .catch(err => Promise.reject(`произошла ошибка с каточками: ${err}`));
+      .then(this._checkError);
   }
 
   // загрузка данных профиля с сервера
@@ -32,8 +31,7 @@ class Api {
       method: 'GET',
       headers: this._headersProperty
     })
-      .then(this._checkError)
-      .catch(err => Promise.reject(`произошла ошибка с профилем: ${err}`));
+      .then(this._checkError);
   }
 
   // отправка новых данных профиля на сервер
@@ -41,10 +39,9 @@ class Api {
     return fetch(this._profileInfoUrl, {
       method: 'PATCH',
       headers: this._headersProperty,
-      body: JSON.stringify({ name: `${newProfileInfo.name}`, about: `${newProfileInfo.job}` })
+      body: JSON.stringify({ name: `${newProfileInfo.name}`, about: `${newProfileInfo.about}` })
     })
-      .then(this._checkError)
-      .catch(err => Promise.reject(`произошла ошибка при отправке профиля: ${err}`));
+      .then(this._checkError);
   }
 
   // добавление новой карточки на сервер
@@ -54,8 +51,7 @@ class Api {
       headers: this._headersProperty,
       body: JSON.stringify({ name: `${iputsInfo.formName}`, link: `${iputsInfo.formText}` })
     })
-      .then(this._checkError)
-      .catch(err => Promise.reject(`произошла ошибка при отправке карточки: ${err}`));
+      .then(this._checkError);
   }
 
   // Удаление карточки на сервере.
@@ -64,8 +60,7 @@ class Api {
       method: 'DELETE',
       headers: this._headersProperty
     })
-      .then(this._checkError)
-      .catch(err => Promise.reject(`произошла ошибка при удалении карточки: ${err}`));
+      .then(this._checkError);
   }
 
   // Загрузка нового аватара на сервер
@@ -75,8 +70,7 @@ class Api {
       headers: this._headersProperty,
       body: JSON.stringify({ avatar: `${link.formText}` })
     })
-      .then(this._checkError)
-      .catch(err => Promise.reject(`произошла ошибка при отправке аватара: ${err}`));
+      .then(this._checkError);
   }
 
   // Добавление лайка на сервер
@@ -85,8 +79,7 @@ class Api {
       method: 'PUT',
       headers: this._headersProperty,
     })
-      .then(this._checkError)
-      .catch(err => Promise.reject(`произошла ошибка при добавлении лайка: ${err}`));
+      .then(this._checkError);
   }
 
   // Удаление лайка на сервере.
@@ -95,8 +88,7 @@ class Api {
       method: 'DELETE',
       headers: this._headersProperty,
     })
-      .then(this._checkError)
-      .catch(err => Promise.reject(`произошла ошибка при удалении лайка: ${err}`));
+      .then(this._checkError);
   }
 
 }
