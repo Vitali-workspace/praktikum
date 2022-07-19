@@ -4,16 +4,10 @@ import {
   profileButtonAdd,
   inputName,
   inputDescription,
-  templateCard,
   gallery,
   formAddCard,
   formEdit,
   formAvatar,
-  popupEdit,
-  popupAddCard,
-  popupCardImg,
-  popupAvatar,
-  popupDeleteCard,
   profileButtonAvatar,
   profilePhoto,
   objElements,
@@ -60,14 +54,12 @@ function handleLikeClick(idCard, isLike, newBuildCard) {
   if (isLike) {
     requestApi.deletelikeCardServer(idCard)
       .then(res => {
-        console.log(res.likes);
         newBuildCard.setFavorites(res.likes)
       }).catch(err => { console.warn(`Ошибка при удалении лайка: ${err}`) })
 
   } else {
     requestApi.likeCardServer(idCard)
       .then(res => {
-        console.log(res.likes);
         newBuildCard.setFavorites(res.likes)
       }).catch(err => { console.warn(`Ошибка при установлении лайка: ${err}`) })
   }
@@ -129,7 +121,6 @@ const popupWithFormAdd = new PopupWithForm(`${selectorPopup.addCard}`, handleDat
 // Отправка на сервер заполненого профиля.
 const popupWithFormProfile = new PopupWithForm(`${selectorPopup.edit}`, () => {
   let profileData = { name: inputName.value, about: inputDescription.value, avatar: profilePhoto.src }
-  console.log(profileData);
 
   requestApi.changeProfileInfo(profileData)
     .then((res) => {
