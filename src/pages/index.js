@@ -9,7 +9,6 @@ import {
   formEdit,
   formAvatar,
   profileButtonAvatar,
-  profilePhoto,
   objElements,
   selectorPopup
 } from '../utils/constans.js';
@@ -119,8 +118,7 @@ const popupWithFormAdd = new PopupWithForm(`${selectorPopup.addCard}`, handleDat
 
 
 // Отправка на сервер заполненого профиля.
-const popupWithFormProfile = new PopupWithForm(`${selectorPopup.edit}`, () => {
-  const profileData = { name: inputName.value, about: inputDescription.value, avatar: profilePhoto.src }
+const popupWithFormProfile = new PopupWithForm(`${selectorPopup.edit}`, (profileData) => {
 
   requestApi.changeProfileInfo(profileData)
     .then((res) => {

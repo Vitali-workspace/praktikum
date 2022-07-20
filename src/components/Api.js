@@ -39,7 +39,7 @@ class Api {
     return fetch(this._profileInfoUrl, {
       method: 'PATCH',
       headers: this._headersProperty,
-      body: JSON.stringify({ name: `${newProfileInfo.name}`, about: `${newProfileInfo.about}` })
+      body: JSON.stringify({ name: `${newProfileInfo.formName}`, about: `${newProfileInfo.formText}` })
     })
       .then(this._checkError);
   }

@@ -11,7 +11,6 @@ const formEdit = document.querySelector('#formEdit');
 const formAvatar = document.querySelector('#formAddAvatar');
 
 const profileButtonAvatar = document.querySelector('.profile__edit-icon');
-const profilePhoto = document.querySelector('.profile__photo');
 
 const objElements = {
   formSelector: '.form',
@@ -42,7 +41,6 @@ export {
   formEdit,
   formAvatar,
   profileButtonAvatar,
-  profilePhoto,
   objElements,
   selectorPopup
 };
