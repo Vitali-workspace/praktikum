@@ -181,18 +181,13 @@ requestApi.getProfileInfo()
 profileButtonEdit.addEventListener('click', function () {
   popupWithFormProfile.open();
   // получаем объект с данными полей из инпута
+  const profileData = userProfile.getUserInfo();
 
-  requestApi.getProfileInfo()
-    .then(() => {
-      const profileData = userProfile.getUserInfo();
-
-      // подставление данных в поля инпута в момент открытия попапа
-      inputName.value = profileData.name;
-      inputDescription.value = profileData.about;
-      validFormEdit.disableSubmitButton();
-      validFormEdit.resetInputErorr();
-    })
-    .catch(err => Promise.reject(`Ошибка при получении профиля: ${err}`));
+  // подставление данных в поля инпута в момент открытия попапа
+  inputName.value = profileData.name;
+  inputDescription.value = profileData.about;
+  validFormEdit.disableSubmitButton();
+  validFormEdit.resetInputErorr();
 });
 
 popupWithFormProfile.setEventListeners();
