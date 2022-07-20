@@ -2,8 +2,8 @@ import { Popup } from "./Popup";
 class PopupWithConfirm extends Popup {
   constructor(selectorPopup) {
     super(selectorPopup)
-    this._submitDelete = this._selectorOpenPopup.querySelector('.form');
-    this._submitButtonForm = this._selectorOpenPopup.querySelector('.popup__btn-save');
+    this._submitDelete = this._elementPopup.querySelector('.form');
+    this._submitButtonForm = this._elementPopup.querySelector('.popup__btn-save');
   }
 
   submitDeleteCard(callback) {

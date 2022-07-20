@@ -120,7 +120,7 @@ const popupWithFormAdd = new PopupWithForm(`${selectorPopup.addCard}`, handleDat
 
 // Отправка на сервер заполненого профиля.
 const popupWithFormProfile = new PopupWithForm(`${selectorPopup.edit}`, () => {
-  let profileData = { name: inputName.value, about: inputDescription.value, avatar: profilePhoto.src }
+  const profileData = { name: inputName.value, about: inputDescription.value, avatar: profilePhoto.src }
 
   requestApi.changeProfileInfo(profileData)
     .then((res) => {
