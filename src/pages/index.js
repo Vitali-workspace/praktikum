@@ -38,11 +38,11 @@ validFormAvatar.enableValidation();
 validFormEdit.enableValidation();
 validFormAddCard.enableValidation();
 
-// попап подтверждения удаления
+// попап подтверждения для удаления карточки
 const popupWithConfirm = new PopupWithConfirm(`${selectorPopup.deleteCard}`);
 popupWithConfirm.setEventListeners();
 
-// отвечает за открытие картинки в попапе
+// функция открытия попапа с картинкой
 function handleCardClick(nameCard, linkCard) {
   popupWithImage.open(nameCard, linkCard);
 }
@@ -64,7 +64,7 @@ function handleLikeClick(idCard, isLike, newBuildCard) {
   }
 }
 
-// колбэк клика на корзину.
+// колбэк клика для кнопки корзины.
 function handleRemoveIconClick(id, card) {
   popupWithConfirm.submitDeleteCard(() => { confirmDeleteCard(id, card) });
   popupWithConfirm.open();
@@ -92,7 +92,7 @@ function getReadyCard(dataCards) {
   return newBuildCard.createTemplateCard();
 }
 
-// рендер карточек
+// рендер готовых карточек нв странице
 const printCards = new Section(
   {
     renderer: (elementCard) => {
